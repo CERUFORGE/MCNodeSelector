@@ -1,0 +1,56 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - { goos: windows, goarch: amd64, ext: ".exe" }
+          - { goos: linux, goarch: amd64, ext: "" }
+          - { goos: linux, goarch: arm64, ext: "" }
+          - { goos: darwin, goarch: amd64, ext: "" }
+          - { goos: darwin, goarch: arm64, ext: "" }
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.21"
+
+      - name: Build
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: "0"
+        run: |
+          go build -trimpath \
+            -ldflags "-s -w -X main.version=${{ github.ref_name }} -X main.buildTime=$(date -u +%F)" \
+            -o mcnode${{ matrix.ext }} .
+
+      - name: Package
+        run: |
+          mkdir -p dist
+          cp mcnode${{ matrix.ext }} dist/
+          cp config.example.jsonc README.md LICENSE dist/
+          if [ "${{ matrix.goos }}" = "windows" ]; then
+            cp start.bat setup.bat doctor.bat speedtest.bat 使用说明.txt dist/
+            cp mcnode.exe "dist/点我.exe"
+          fi
+          cd dist
+          zip -r ../mcnode-${{ matrix.goos }}-${{ matrix.goarch }}.zip .
+
+      - name: Upload
+        uses: softprops/action-gh-release@v2
+        with:
+          name: MCNodeSelector (MCNS) ${{ github.ref_name }}
+          files: mcnode-${{ matrix.goos }}-${{ matrix.goarch }}.zip
+          generate_release_notes: true

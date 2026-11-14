@@ -1,0 +1,121 @@
+{
+  "general": {
+    "language": "zh",                 // UI language: zh / en
+    "log_level": "INFO",              // DEBUG / INFO / WARN / ERROR
+    "log_dir": "logs",
+    "log_keep_days": 7,
+    "data_dir": "data",
+    "single_instance": true,
+    "all_nodes_down_wait_sec": 30,
+    "auto_update_check": true,        // check GitHub releases on start
+    "update_repo": ""                 // e.g. "yourname/MCNodeSelector"
+  },
+  "minecraft": {
+    "local_host": "127.0.0.1",
+    "local_port": 25565,              // port your game connects to (local forwarder listen port)
+    "extra_local_ports": []           // extra listen ports, e.g. [25566]
+  },
+  "frpc": {
+    "enabled": false,                 // host mode only (server owner: run frpc to expose local MC); players leave false
+    "binary": "frpc.exe",
+    "work_dir": "frpc_run",
+    "proxy_name": "mc",
+    "default_remote_port": 25565,
+    "max_restarts": 5,
+    "restart_window_min": 10,
+    "restart_backoff_max_sec": 60
+  },
+  "probing": {
+    "samples": 10,
+    "interval_ms": 200,
+    "timeout_ms": 3000,
+    "concurrency": 8,
+    "mc_check": {
+      "enabled": true,
+      "mode": "direct",
+      "top_k": 100,
+      "samples": 20,
+      "timeout_ms": 4000,
+      "burst": 8
+    }
+  },
+  "scoring": {
+    "weights": { "latency": 45, "p95": 12, "jitter": 8, "loss": 10, "spike": 10, "mc": 5, "history": 10 },
+    "latency": { "ideal_ms": 30,  "max_ms": 300 },
+    "p95":      { "ideal_ms": 60,  "max_ms": 500 },
+    "jitter":   { "ideal_ms": 10,  "max_ms": 150 },
+    "loss":     { "ideal_pct": 0,  "max_pct": 20 },
+    "spike":    { "ideal_pct": 0,  "max_pct": 25 },
+    "mc":       { "ideal_ms": 50,  "max_ms": 300 },
+    "history":  { "neutral_score": 70, "update_alpha": 0.3 },
+    "robust":   { "enabled": true, "spike_mad_k": 3.5, "spike_floor_ms": 30, "trim_pct": 20 },
+    "unstable_loss_pct": 10
+  },
+  "switching": {
+    "min_dwell_min": 10,
+    "advantage_margin": 15,
+    "consecutive_wins": 3,
+    "cooldown_min": 10,
+    "max_switches_per_hour": 4,
+    "fail_threshold": 2,
+    "monitor_interval_sec": 10,
+    "retest_interval_min": 30,
+    "blacklist_min": 15,
+    "monitor_use_mc_ping": true,
+    "pause_switch_when_active": true,
+    "degradation_switch": true,
+    "degradation_threshold_ms": 300,
+    "degradation_ticks": 2,
+    "degradation_drop_players": true,
+    "spike_ms": 200,                  // a spike is an end-to-end RTT above this
+    "spike_target_per_hour": 1
+  },
+  "hooks": {
+    "on_switch": "",
+    "on_all_nodes_down": ""
+  },
+  "remote": {
+    // Node list source: http(s) URL, file://, or a local path. Blank = only local nodes[].
+    // Format: a JSON array [{...}] or {"nodes":[...]} (JSONC comments allowed).
+    "url": "",
+    "timeout_ms": 5000,
+    "interval_min": 10
+  },
+  "multipath": {
+    // Advanced: redundant tunnel across multiple frp nodes (requires `mcnode --agent` on the server).
+    "enabled": false,
+    "auto": true,
+    "adaptive": true,
+    "redundancy": 2,
+    "redundancy_max": 3,
+    "critical_always": false,
+    "large_paths": 1,
+    "failover_only": false,
+    "auto_redundancy": true,
+    "queue_rise_ms": 30,
+    "weak_jitter_ms": 25,
+    "engage_jitter_ms": 80,
+    "engage_loss_pct": 10,
+    "engage_ticks": 3,
+    "engage_spike_ms": 200,
+    "disengage_sec": 120,
+    "path_count": 5,
+    "paths": [],
+    "agent_listen": "127.0.0.1:7001", // agent listen address (use 0.0.0.0:7001 only if frpc is on another machine)
+    "agent_passthrough": true,        // allow raw MC status pings to the agent port; false = multipath-only (token required; then set node mc_check to the public MC port)
+    "agent_mc": "",
+    "agent_token": ""                 // shared secret; set the SAME value on client and agent
+  },
+  "nodes": [
+    // {
+    //   "name": "example",
+    //   "server_addr": "mc.example.com",
+    //   "server_port": 25565,     // public game endpoint: MC port, or the agent port for multipath
+    //   "token": "",
+    //   "remote_port": 25565,     // expected public MC port (frpc host mode / consistency check)
+    //   "region": "cn-example",
+    //   "weight": 1.0,
+    //   "enabled": true
+    // }
+  ]
+}

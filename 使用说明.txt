@@ -1,0 +1,40 @@
+MCNodeSelector (MCNS) v1.0 · 通用版（多服务器）
+
+════════ 玩家：多服务器，一次玩一个 ════════
+1) 解压到任意文件夹
+2) 双击  start.bat  （或 mcnode.exe / 点我.exe）
+3) 第一次启动先选语言：1) English  2) 中文
+4) 然后添加服务器：
+   · 服务器名称：自己起（如 朋友服），可以自定义
+   · 地址：服务器IP:端口（直连） 或 腐竹给的节点订阅URL/文件
+   · 本地端口：默认 25565；玩多个服务器请用不同端口（25565 / 25566 / …）
+5) 以后每次双击会出现「服务器菜单」：
+     数字 = 启动对应服务器
+     [a]  = 添加服务器
+     [d]  = 删除服务器（按提示输入编号）
+     [q]  = 退出
+   只有一台时，直接回车就会启动。
+   游戏连  127.0.0.1:对应端口  即可。
+
+说明：
+· 每个服务器有独立的配置/日志/历史（servers\名称\），互不影响。
+· 地址填「直连」也能用（不需要腐竹提供任何东西）；
+  腐竹提供「节点订阅URL」时，选路/测速效果更好。
+· 语言会记住（settings.json）；想改语言删掉该文件即可重新选。
+
+管理命令（可选）：
+  mcnode.exe --servers                       列出所有服务器
+  mcnode.exe --add-server 名字 地址 端口      添加
+  mcnode.exe --play 名字                      启动指定服务器
+  mcnode.exe --remove-server 名字             删除
+
+════════ 服务端 agent（可选，多线冗余才需要）════════
+Linux： ./mcnode_linux_amd64 --agent --config /etc/mcnode/config.jsonc
+        （ARM 设备用 mcnode_linux_arm64）
+务必设置 multipath.agent_token（两端一致）；frpc 与 agent 同机时 agent_listen 用 127.0.0.1:7001。
+如只想让 agent 跑多线，设 agent_passthrough=false（此时把 mc_check 指向 MC 公网端口）。
+
+════════ 常用命令 ════════
+  mcnode.exe --test        全量测速报告
+  mcnode.exe --list        列出节点
+  mcnode.exe --diagnose    一键诊断

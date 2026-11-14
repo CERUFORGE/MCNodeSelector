@@ -1,0 +1,29 @@
+# 构建产物 / build artifacts
+*.exe
+*.exe.bak
+*.dll
+*.so
+*.dylib
+*.test
+/dist/
+mcnode
+
+# 运行时数据（含节点选择/历史/状态，属个人数据）/ runtime data (personal)
+/data/
+/logs/
+*.lock
+
+# 本地配置（含节点与 token）/ local config (nodes & tokens)
+/config.jsonc
+
+# 系统/编辑器 / OS & editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# 本地发行版产物（不提交）
+/发行版/
+/frpc_run/
+/servers/
+/settings.json

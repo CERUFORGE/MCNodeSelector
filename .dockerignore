@@ -1,0 +1,14 @@
+# 构建上下文排除项（镜像只需要源码）
+.git
+.github
+发行版
+servers
+data
+logs
+frpc_run
+config.jsonc
+settings.json
+nodes.json
+*.exe
+*.log
+tb.png
