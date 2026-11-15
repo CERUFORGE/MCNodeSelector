@@ -508,4 +508,6 @@ go build ./cmd/netsim                          # 分档网络损伤工具
 
 GNU Affero General Public License v3.0（AGPL-3.0），见 `LICENSE`。
 
+版权所有 (C) 2026 MCNS 贡献者。
+
 如果你修改本程序并通过网络向他人提供服务，AGPL 要求你向他们提供对应的源代码。

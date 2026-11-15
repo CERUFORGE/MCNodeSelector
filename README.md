@@ -550,5 +550,7 @@ go build ./cmd/netsim                          # tiered network-impairment tool
 
 GNU Affero General Public License v3.0 (AGPL-3.0). See `LICENSE`.
 
+Copyright (C) 2026 MCNS contributors.
+
 If you modify this program and let others use it over a network, the AGPL requires you to
 offer them the corresponding source code.
