@@ -53,4 +53,4 @@ jobs:
         with:
           name: MCNodeSelector (MCNS) ${{ github.ref_name }}
           files: mcnode-${{ matrix.goos }}-${{ matrix.goarch }}.zip
-          generate_release_notes: true
+          overwrite: true
