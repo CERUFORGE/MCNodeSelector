@@ -40,7 +40,7 @@ jobs:
         run: |
           mkdir -p dist
           cp mcnode${{ matrix.ext }} dist/
-          cp config.example.jsonc README.md LICENSE dist/
+          cp config.example.jsonc README.md README.zh-CN.md LICENSE dist/
           if [ "${{ matrix.goos }}" = "windows" ]; then
             cp start.bat setup.bat doctor.bat speedtest.bat 使用说明.txt dist/
             cp mcnode.exe "dist/点我.exe"

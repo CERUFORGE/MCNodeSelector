@@ -11,5 +11,7 @@ RUN adduser -D -H mcnode
 COPY --from=build /out/mcnode /usr/local/bin/mcnode
 USER mcnode
 EXPOSE 7001
+LABEL org.opencontainers.image.title="MCNodeSelector (MCNS)"
+LABEL org.opencontainers.image.licenses="AGPL-3.0-only"
 # 挂载配置到 /etc/mcnode/config.jsonc（含 multipath.agent_token 与 agent_mc）
 ENTRYPOINT ["mcnode", "--agent", "--config", "/etc/mcnode/config.jsonc"]
