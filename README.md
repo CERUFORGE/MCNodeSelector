@@ -15,6 +15,13 @@ terminal status screen.
 
 ---
 
+## TL;DR
+I made this thing by beating the AI up (actually, except for this paragraph, everything was written by AI (seriously, it’s not because I’m lazy)). Anyway, in short, this thing can, to some extent, alleviate occasional spikes/packet loss on public FRP through multi-path packet sending, but it will also double your traffic usage. You need to consider it based on your own network conditions. If your network is bad, it may have the opposite effect!
+
+- **For server owners**: You only need to open one or two extra lines and then create a node list (see below for the node list).
+- **For players**: You only need to configure it as prompted and then connect to the local port.
+---
+
 ## Highlights
 
 - **Two-phase probing**: fast TCP screening for every node, then an end-to-end Minecraft
